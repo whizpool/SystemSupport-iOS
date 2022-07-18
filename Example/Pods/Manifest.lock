@@ -1,6 +1,7 @@
 PODS:
   - SSZipArchive (2.4.3)
-  - SystemSupport (0.1.0)
+  - SystemSupport (0.1.0):
+    - SSZipArchive (~> 2.4.2)
 
 DEPENDENCIES:
   - SSZipArchive (~> 2.4.2)
@@ -16,7 +17,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
-  SystemSupport: 2f72022a6a09758cb9c0fd2174a35f4594bddf4e
+  SystemSupport: 9aee92cc01d6ff486c1a0d5b2b4525f01dc2f108
 
 PODFILE CHECKSUM: ceb6795e2e204f08a43ec87775560872b8fab63d
 

@@ -51,7 +51,7 @@ SystemSupport-iOS is available through [CocoaPods](https://cocoapods.org). To in
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'SystemSupport-iOS'
+pod 'SystemSupport'
 ```
 
 ## Log Levels
@@ -68,7 +68,7 @@ The following log levels are supported:
 
 ```swift
  // let's import the logging API package
-import SystemSupport-iOS
+import SystemSupport
 
  // initilization Sdk
 SLog.shared.initilization()
@@ -86,4 +86,4 @@ SLog.shared.log(text: "Hello World!!")
 
 ## License
 
-SystemSupport-iOS is available under the MIT license. See the LICENSE file for more info.
+SystemSupport is available under the MIT license. See the LICENSE file for more info.

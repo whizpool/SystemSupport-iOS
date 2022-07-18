@@ -1,22 +1,30 @@
 {
   "name": "SystemSupport",
   "version": "0.1.0",
-  "summary": "A short description of SystemSupport.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/HamzaMalik9805/SystemSupport",
+  "summary": "This project will create a logfile and main record of logfile",
+  "description": "'This project will create a logfile and main record of logfile.just import this library and check this pod'",
+  "homepage": "https://github.com/whizpool/SystemSupport-iOS",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "HamzaMalik9805": "hamzamalik9805@gmail.com"
+    "usman-whizpool": "usman.nisar@whizpool.com"
   },
   "source": {
-    "git": "https://github.com/HamzaMalik9805/SystemSupport.git",
+    "git": "https://github.com/whizpool/SystemSupport-iOS.git",
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "10.0"
+    "ios": "11.0"
   },
-  "source_files": "SystemSupport/Classes/**/*"
+  "source_files": "Classes/**/*.swift",
+  "swift_versions": "5.0",
+  "resources": "Classes/**/*.{xib,xcassets,close}",
+  "dependencies": {
+    "SSZipArchive": [
+      "~> 2.4.2"
+    ]
+  },
+  "swift_version": "5.0"
 }
