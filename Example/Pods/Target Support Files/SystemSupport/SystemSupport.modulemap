@@ -1,0 +1,6 @@
+framework module SystemSupport {
+  umbrella header "SystemSupport-umbrella.h"
+
+  export *
+  module * { export * }
+}

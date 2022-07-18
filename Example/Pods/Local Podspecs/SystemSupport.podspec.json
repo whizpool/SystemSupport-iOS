@@ -1,0 +1,22 @@
+{
+  "name": "SystemSupport",
+  "version": "0.1.0",
+  "summary": "A short description of SystemSupport.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/HamzaMalik9805/SystemSupport",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "HamzaMalik9805": "hamzamalik9805@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/HamzaMalik9805/SystemSupport.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "SystemSupport/Classes/**/*"
+}
