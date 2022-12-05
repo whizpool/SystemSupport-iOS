@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,13 +17,95 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uHu-8n-ssg" userLabel="show log">
+                                <rect key="frame" x="96.666666666666686" y="209" width="200" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r7p-V8-txM">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="show log"/>
+                                        <connections>
+                                            <action selector="showlogBtn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="u9E-KV-sfC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="8uS-7l-HZq"/>
+                                    <constraint firstAttribute="width" constant="200" id="Bsy-Z9-AOr"/>
+                                    <constraint firstItem="r7p-V8-txM" firstAttribute="top" secondItem="uHu-8n-ssg" secondAttribute="top" id="cFi-N9-9Kd"/>
+                                    <constraint firstItem="r7p-V8-txM" firstAttribute="leading" secondItem="uHu-8n-ssg" secondAttribute="leading" id="dyP-J5-PL5"/>
+                                    <constraint firstAttribute="bottom" secondItem="r7p-V8-txM" secondAttribute="bottom" id="uIE-dH-jMh"/>
+                                    <constraint firstAttribute="trailing" secondItem="r7p-V8-txM" secondAttribute="trailing" id="ygj-3s-PHu"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IsK-DA-U5k" userLabel="delete file">
+                                <rect key="frame" x="96.666666666666686" y="279" width="200" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbB-ct-PAv">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="delete logs"/>
+                                        <connections>
+                                            <action selector="deleteLogBtn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="kFV-Br-WrH"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="zbB-ct-PAv" firstAttribute="leading" secondItem="IsK-DA-U5k" secondAttribute="leading" id="4mc-PQ-f1V"/>
+                                    <constraint firstAttribute="trailing" secondItem="zbB-ct-PAv" secondAttribute="trailing" id="OFe-Rc-9Uo"/>
+                                    <constraint firstAttribute="width" constant="200" id="Qo4-Vb-rug"/>
+                                    <constraint firstAttribute="height" constant="50" id="gZf-os-8aj"/>
+                                    <constraint firstAttribute="bottom" secondItem="zbB-ct-PAv" secondAttribute="bottom" id="jhU-GH-7ea"/>
+                                    <constraint firstItem="zbB-ct-PAv" firstAttribute="top" secondItem="IsK-DA-U5k" secondAttribute="top" id="vut-9T-HEA"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAr-0j-H9D" userLabel="send log file">
+                                <rect key="frame" x="96.666666666666686" y="349" width="200" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKJ-oZ-Cwd">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Send logs"/>
+                                        <connections>
+                                            <action selector="sendLogBtn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="RcI-4w-m1I"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="NKJ-oZ-Cwd" secondAttribute="bottom" id="8mM-SH-fbr"/>
+                                    <constraint firstAttribute="trailing" secondItem="NKJ-oZ-Cwd" secondAttribute="trailing" id="Csd-VE-Ing"/>
+                                    <constraint firstAttribute="height" constant="50" id="Ehw-EL-U8x"/>
+                                    <constraint firstItem="NKJ-oZ-Cwd" firstAttribute="leading" secondItem="nAr-0j-H9D" secondAttribute="leading" id="U4q-D5-WVl"/>
+                                    <constraint firstItem="NKJ-oZ-Cwd" firstAttribute="top" secondItem="nAr-0j-H9D" secondAttribute="top" id="oyn-Ro-01g"/>
+                                    <constraint firstAttribute="width" constant="200" id="sFM-me-UnK"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="nAr-0j-H9D" firstAttribute="top" secondItem="IsK-DA-U5k" secondAttribute="bottom" constant="20" id="2S3-85-yac"/>
+                            <constraint firstItem="uHu-8n-ssg" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="9wh-yX-pnv"/>
+                            <constraint firstItem="IsK-DA-U5k" firstAttribute="top" secondItem="uHu-8n-ssg" secondAttribute="bottom" constant="20" id="Qih-Hf-dGp"/>
+                            <constraint firstItem="uHu-8n-ssg" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="150" id="RWH-gx-6DC"/>
+                            <constraint firstItem="IsK-DA-U5k" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="ixt-k3-gW3"/>
+                            <constraint firstItem="nAr-0j-H9D" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="nVb-LE-h8N"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-57" y="-32"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
