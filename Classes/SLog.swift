@@ -24,6 +24,9 @@ public class SLog {
     // title
     var titleText:String = ""
     
+    // send Button text
+    var sendBtnText:String = ""
+    
     // Background Color
     var backgroundColor = UIColor.white
     
@@ -32,6 +35,7 @@ public class SLog {
     
     // border color
     var borderColor = UIColor.black.cgColor
+    var borderColorDark = UIColor.white.cgColor
     
     // Tag Variable is Project name this is displayed in console
     var TAG:String = "LogFilePodProj"
@@ -55,13 +59,13 @@ public class SLog {
     private var buildNo:Int64 = 0
     
     // send by default email of developer
-    var sendToEmail: String = "hamza.mughal@whizpool.com"
+    var sendToEmail: String = ""
     
     // after combine log file name
     var finalLogFileName_After_Combine = "finalLog"
     
     // zip attach file name
-    var zipFileName = "LogFile.zip"
+//    var zipFileName = "LogFile.zip"
     
     // zip temporary save file name
     var temp_zipFileName = "logFileData.zip"
@@ -69,94 +73,105 @@ public class SLog {
     // json file name
     var jsonFileName = "myJsonFile"
     
-    // zip folder path
-    var appendZipFolderPath = "/NewZip"
-    
-    // log folder path
-    var appendRootFolderPath = "Logs/"
-    
     // Email Subject for mail composer
     var emailSubject = "Email Sends To Developers"
     
     // Textview Placeholder
     var prefilledTextviewText = "Write here about your bug detail"
     
+    // close button icon
+    var closeBtnIcon : UIImage?
+    
     
     // MARK: - ********************* initilization *********************// -
     
-    // In initilization we can create a Logs Folder
+    /// IN INITILLIZATION WE CAN CREATE THE LOG FOLDER
+    /// FUNCTION TAKES THE DATE FORMAT FOR THE LOG FILE
+    /// FILES ARE CREATED WITH THE NAMES OF THE DATE SO THAT IT IS EASY TO HANDLE FOR SORTING
+    /// AND IT CREATE THE DIRECTORY WITH FOLDER NAME
     public func initilization()
+    {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        print(path)
+        
+        if let pathComponent = url.appendingPathComponent(LOG_FILE_ROOT_DIR_NAME)
         {
-            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-            let url = NSURL(fileURLWithPath: path)
-            print(path)
-            if let pathComponent = url.appendingPathComponent(LOG_FILE_ROOT_DIR_NAME) {
-                
-                _ = Date()
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = LOG_FILE_DATE_FORMAT
-                
-                let filePath = pathComponent.path
-                let fileManager = FileManager.default
-                if fileManager.fileExists(atPath: filePath) {
-                } else {
-                    let DocumentDirectory = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
-                    let DirPath = DocumentDirectory.appendingPathComponent(LOG_FILE_ROOT_DIR_NAME)
-                    do
-                    {
-                        try FileManager.default.createDirectory(atPath: DirPath!.path, withIntermediateDirectories: true, attributes: nil)
-                    }
-                    catch let error as NSError
-                    {
-                        print("Unable to create directory \(error.debugDescription)")
-                    }
-                    
+            _ = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = LOG_FILE_DATE_FORMAT
+            
+            let filePath = pathComponent.path
+            let fileManager = FileManager.default
+            if !fileManager.fileExists(atPath: filePath)
+            {
+                let DocumentDirectory = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+                let DirPath = DocumentDirectory.appendingPathComponent(LOG_FILE_ROOT_DIR_NAME)
+                do
+                {
+                    try FileManager.default.createDirectory(atPath: DirPath!.path, withIntermediateDirectories: true, attributes: nil)
                 }
-            } else {
-                print("FILE PATH NOT AVAILABLE")
+                catch let error as NSError
+                {
+                    print("Unable to create directory \(error.debugDescription)")
+                }
             }
-            
-            // Give Values to versionName and buildNo from functions that is in Utils file
-            versionName = SLog.getVersionName()
-            buildNo = Int64(SLog.buildNumber)!
-            
-            // calling delete log file function
-            _ = deleteOldLogs(forcefullyDelete: false)
         }
+        else
+        {
+            print("FILE PATH NOT AVAILABLE")
+        }
+        
+        // Give Values to versionName and buildNo from functions that is in Utils file
+        versionName = SLog.getVersionName()
+        buildNo = Int64(SLog.buildNumber)!
+        
+        // calling delete log file function
+        _ = deleteOldLogs(forcefullyDelete: false)
+    }
     
     // MARK: - ********************* Public Functions *********************// -
     
-    // Function to get path of LogZipfile
+    /// FUNC GET THE ZIP FILE PATH
+    /// WE WILL PROVIDE THE DIRECTORY NAME
     public func getLogFilePath (completion: (String) -> ())
     {
         let filePath = SLog.shared.getRootDirPath()
         let url = URL(string: filePath)
-        let zipPath = url!.appendingPathComponent(SLog.shared.appendZipFolderPath)
+        let zipPath = url!.appendingPathComponent("/\(SLog.shared.LOG_FILE_New_Folder_DIR_NAME)")
+        
         do {
             self.createPasswordProtectedZipLogFile(at: zipPath.path) { path in
-                
                 completion(path)
             }
         }
-//        catch let error as NSError
-//        {
-//            print("Unable to create directory \(error.debugDescription)")
-//            completion("")
-//        }
-//
+        catch let error as NSError
+        {
+            print("Unable to create directory \(error.debugDescription)")
+            completion("")
+        }
     }
     
     // ****************************************************
     
-    // this function is used for writing logs in log file
-    public func log(text: String?)
+    /// this function is used for writing logs in log file and print on console
+    public func summaryLog(text: String?)
     {
-        log(tag: TAG, text: text, exception: nil)
+        log(tag: TAG, text: text, exception: nil, writeInFile: true)
     }
+
+    // ****************************************************
     
+    /// this function is used to print on console and writing logs in log file ( optional )
+    public func detailLog(text: String?, writeIntoFile : Bool)
+    {
+        log(tag: TAG, text: text, exception: nil, writeInFile: writeIntoFile)
+    }
+
     // ****************************************************
     
     // Function For checking files are greater then (KEEP_OLD_LOGS_UP_TO_DAYS) or not and call function for deleting files
+    // we can also delete the files forcefully by developer end if you want to
     public func deleteOldLogs(forcefullyDelete: Bool) -> Bool
     {
         let fileManager:FileManager = FileManager.default
@@ -188,11 +203,7 @@ public class SLog {
         }
         
         // Sort the directories in alphabetical order (in ascending dates)
-        
         let sortArray = fileList.sorted(by: { $0.compare($1) == .orderedAscending })
-        
-        
-        
         
         for (index, file) in sortArray.enumerated()
         {
@@ -211,6 +222,81 @@ public class SLog {
     
     // ****************************************************
     
+    // function to get tag value
+    public func setDefaultTag (tagName: String) {
+        TAG = tagName
+    }
+    
+    // ****************************************************
+    
+    // function to get log days value
+    public func setDaysForLog (numberOfDays: Int) {
+        KEEP_OLD_LOGS_UP_TO_DAYS = numberOfDays
+    }
+    
+    // ****************************************************
+    
+    // function to get password
+    public func setPassword(password:String) {
+        self.password = password
+    }
+    
+    // ****************************************************
+    
+    // function to get the alert title from developer end
+    public func setTittle(title:String) {
+        self.titleText = title
+    }
+    
+    // ****************************************************
+    
+    // function to get the send button text from developer end
+    public func setSendButtonText (text:String) {
+        self.sendBtnText = text
+    }
+    
+    // ****************************************************
+    
+    // function to get email from the developer end
+    public func setEmail (text:String) {
+        self.sendToEmail = text
+    }
+    
+    // ****************************************************
+    
+    // function to set place holder for the text view
+    public func setPlaceHolder (text:String) {
+        self.prefilledTextviewText = text
+    }
+    
+    // ****************************************************
+    
+    // function to set final log file name
+    public func setLogFileName (text:String) {
+        self.finalLogFileName_After_Combine = text
+    }
+    
+    // ****************************************************
+    
+    // function to set close button image
+    public func setCloseBtnImage (img : UIImage)
+    {
+        self.closeBtnIcon = img
+    }
+    
+    // ****************************************************
+    
+//    // setting background color for alert view
+//    public func setMainBackgroundColor (backgroundColor : UIColor)
+//    {
+//        DispatchQueue.main.async {
+//            //
+//            self.mainDialogBoxView.backgroundColor = backgroundColor
+//        }
+//    }
+    
+    // ****************************************************
+    
     // Function For Checking App is in Debug mode or not
     public func isInDebugMode() -> Bool
     {
@@ -225,7 +311,9 @@ public class SLog {
     
     // MARK: - ********************* Private Functions *********************// -
     
-    // Function For Writing Logs in Log File
+    // Function For Writing Logs files locally and store them on the phone
+    // it checks the path and file if exists it will update the same file
+    // other wise it will create the file and store it locally
     private func writeLogInFile(message:String)
     {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
@@ -269,10 +357,26 @@ public class SLog {
                 else
                 {
                     print("FILE NOT AVAILABLE")
+                    /// getting detail of the device and adding into the log file
+                    let appVersion = SLog.getVersionName()
+                    let manufacture = SLog.getDeviceManufacture()
+                    let deviceModel = UIDevice.modelName
+                    let OSInstalled = SLog.getOSInfo()
+                    var freeSpace:String = ""
+                    
+                    // calculate free space of device
+                    if let Space = SLog.deviceRemainingFreeSpaceInBytes() {
+                        freeSpace = Units(bytes: Space).getReadableUnit()
+                    }
+                    
+                    let deviceDetail = "\nappVersion : \(appVersion)" + "\nmanufacture : \(manufacture)" + "\ndeviceModel : \(deviceModel)" + "\nOSInstalled : \(OSInstalled)" + "\nfreeSpace : \(freeSpace)"
+                    
+                    let updatedMsgWithDeviceDetail = "\n\(deviceDetail)\n\n\n\(updatedMessage)"
+                    
+                    
                     do{
-                        try updatedMessage.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+                        try updatedMsgWithDeviceDetail.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
                         print(updatedMessage)
-                        
                     }
                     catch{
                         print(error.localizedDescription)
@@ -302,30 +406,34 @@ public class SLog {
     
     // MARK: - ********************* Functions *********************// -
     
-   
-    // combine two files into one and set that file name is finalLog and at the end we can call makeJsonFile function which will create json file
+    /// func will combine the all the log files which are being created every day into one final log file
+    /// when we report the bug of wants the log fiels it will combine all the log files
+    /// then zip it and post it at the given email address
     func combineLogFiles(completion: (String) -> ())
     {
         // Delete Zip Folder
         _ = SLog.shared.deleteFile(fileName: SLog.shared.LOG_FILE_New_Folder_DIR_NAME)
-        
+
         let fileManager = FileManager.default
         var files = [String]()
         files.removeAll()
+        var fileCombine = URL(string: "")
+        var result = ""
         
         // getting files from Slog Function
         files = SLog.shared.listFilesFromDocumentsFolder()
-        
+
         // arrange Files in orderedAscending
         files = files.sorted(by: { $0.compare($1) == .orderedAscending })
-        for file in files{
+        for file in files
+        {
             //if you get access to the directory
-            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                
+            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            {
                 //prepare file url
-                let fileURL = dir.appendingPathComponent(appendRootFolderPath)
-                
+                let fileURL = dir.appendingPathComponent("\(LOG_FILE_ROOT_DIR_NAME)/")
                 let DirPath = fileURL.appendingPathComponent(SLog.shared.LOG_FILE_New_Folder_DIR_NAME)
+
                 do
                 {
                     try FileManager.default.createDirectory(atPath: DirPath.path, withIntermediateDirectories: true, attributes: nil)
@@ -334,58 +442,56 @@ public class SLog {
                 {
                     print("Unable to create directory \(error.debugDescription)")
                 }
+
                 print("Dir Path = \(DirPath)")
-                
+
                 let newZipDirURL = fileURL.appendingPathComponent(file)
-                let fileCombine = DirPath.appendingPathComponent(SLog.shared.finalLogFileName_After_Combine)
-                
+                fileCombine = DirPath.appendingPathComponent(SLog.shared.finalLogFileName_After_Combine)
+//                let fileCombine = DirPath.appendingPathComponent(SLog.shared.finalLogFileName_After_Combine)
+
                 do{
-                    var result = ""
-                    result = try String(contentsOf: newZipDirURL, encoding: .utf8)
+                    let data = try String(contentsOf: newZipDirURL, encoding: .utf8)
+                    result = result + data
                     print(result)
-                    if fileManager.fileExists(atPath: fileCombine.path){
-                        
-                        do {
-                            if fileManager.fileExists(atPath: fileCombine.path) {
-                                // File Available
-                                if let fileUpdater = try? FileHandle(forUpdating: fileCombine) {
-                                    // Function which when called will cause all updates to start from end of the file
-                                    fileUpdater.seekToEndOfFile()
-                                    
-                                    // Which lets the caller move editing to any position within the file by supplying an offset
-                                    fileUpdater.write(result.data(using: .utf8)!)
-                                    
-                                    // Once we convert our new content to data and write it, we close the file and that’s it!
-                                    fileUpdater.closeFile()
-                                    
-                                    completion(fileCombine.path)
-                                }
-                            }
-                        }
-//                        catch{
-//                            print(error.localizedDescription)
-//                            completion("")
-//                        }
-                    }
-                    else{
-                        
-                        if (FileManager.default.createFile(atPath: fileCombine.path, contents: nil, attributes: nil)) {
-                            print("File created successfully.")
-                            do{
-                                try result.write(to: fileCombine, atomically: true, encoding: String.Encoding.utf8)
-    
-                                let pathURL = fileCombine // URL
-                                let pathString = pathURL.path // String
-                        
-                                completion(pathString)
-                            }
-                            catch{
-                                print(error.localizedDescription)
-                                completion("")
-                            }
-                        }
-                    }
-                }catch{
+                }
+                catch{
+                    print(error.localizedDescription)
+                    completion("")
+                }
+            }
+        }
+        
+        if fileManager.fileExists(atPath: fileCombine!.path)
+        {
+            // File Available
+            if let fileUpdater = try? FileHandle(forUpdating: fileCombine!)
+            {
+                // Function which when called will cause all updates to start from end of the file
+                fileUpdater.seekToEndOfFile()
+
+                // Which lets the caller move editing to any position within the file by supplying an offset
+                fileUpdater.write(result.data(using: .utf8)!)
+
+                // Once we convert our new content to data and write it, we close the file and that’s it!
+                fileUpdater.closeFile()
+
+                completion(fileCombine!.path)
+            }
+        }
+        else
+        {
+            if (FileManager.default.createFile(atPath: fileCombine!.path, contents: nil, attributes: nil))
+            {
+                print("File created successfully.")
+                do{
+                    try result.write(to: fileCombine!, atomically: true, encoding: String.Encoding.utf8)
+
+                    let pathURL = fileCombine! // URL
+                    let pathString = pathURL.path // String
+
+                    completion(pathString)
+                }
+                catch{
                     print(error.localizedDescription)
                     completion("")
                 }
@@ -395,7 +501,10 @@ public class SLog {
     
     // ****************************************************
     
-    // Function create zip and create password on it
+    /// func will combine the all the log files which are being created every day into one final log file
+    /// when we report the bug of wants the log fiels it will combine all the log files
+    /// then zip it and post it at the given email address
+    /// Function create zip and create password on it
     func createPasswordProtectedZipLogFile(at logfilePath: String, completion: (String) -> ())
     {
         var isZipped:Bool = false
@@ -419,7 +528,7 @@ public class SLog {
                         isZipped = SSZipArchive.createZipFile(atPath: createZipPath, withContentsOfDirectory: contentsPath, keepParentDirectory: true, withPassword: SLog.shared.password)
                     }
                     
-                    let zipPath = ((contentsPath as NSString).deletingLastPathComponent as NSString).appendingPathComponent(SLog.shared.zipFileName)
+                    let zipPath = ((contentsPath as NSString).deletingLastPathComponent as NSString).appendingPathComponent(("\(SLog.shared.finalLogFileName_After_Combine).zip"))
                     
                     do {
                         if isZipped
@@ -454,10 +563,11 @@ public class SLog {
     
     // ****************************************************
     
-    // Fuction make Json file
-    func makeJsonFile(completion: (String) -> ()){
+    /// Fuction make Json file for ios it will get the phone details
+    ///
+    func makeJsonFile(completion: (String) -> ())
+    {
         // -> URL
-        
         // create empty dict
         var myDict = [String: String]()
         
@@ -494,11 +604,12 @@ public class SLog {
     // ****************************************************
     
     // create json file in directory with specific information of device
-    func saveJsonFileInDirectory(jsonObject: Any, toFilename filename: String, completion: (String) -> ()) throws {
+    func saveJsonFileInDirectory(jsonObject: Any, toFilename filename: String, completion: (String) -> ()) throws
+    {
         let fm = FileManager.default
         let urls = fm.urls(for: .documentDirectory, in: .userDomainMask)
         if let url = urls.first {
-            var fileURL = url.appendingPathComponent(appendRootFolderPath)
+            var fileURL = url.appendingPathComponent("\(LOG_FILE_ROOT_DIR_NAME)/")
             let zipFolder = fileURL.appendingPathComponent("NewZip/")
             let zipFolderUrl = zipFolder.appendingPathComponent(filename)
             fileURL = zipFolderUrl.appendingPathExtension("json")
@@ -522,18 +633,11 @@ public class SLog {
     // ****************************************************
     
     // this function is call from above log function
-    func log(tag: String?, text: String?)
-    {
-        log(tag: TAG, text: text, exception: nil)
-    }
-    
-    // ****************************************************
-    
-    // this function is call from above log function
-    func log(tag: String?, text: String?, exception: NSException?)
+    func log(tag: String?, text: String?, exception: NSException?, writeInFile : Bool)
     {
         var tagToLog:String = ""
-        if (tag == nil || tag == ""){
+        
+        if (tag == nil || tag!.isEmpty) {
             tagToLog = "Null Tag"
         }
         else{
@@ -541,7 +645,7 @@ public class SLog {
         }
         
         var textToLog:String = ""
-        if (text == nil || text == ""){
+        if (text == nil || text!.isEmpty) {
             textToLog = "Null Message"
         }
         else{
@@ -557,7 +661,11 @@ public class SLog {
         }
         
         // this function is call for writing logs in log file
-        writeLogInFile(message: text!)
+        
+        if writeInFile
+        {
+            writeLogInFile(message: text!)
+        }
     }
     
     // ****************************************************
@@ -565,11 +673,13 @@ public class SLog {
     // function for getting App Version Number
     class func getVersionName() -> String {
         //First get the nsObject by defining as an optional anyObject
-        let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject
+        if let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject
+        {
+            let version = nsObject as? String ?? ""
+            return version
+        }
         
-        //Then just cast the object as a String, but be careful, you may want to double check for nil
-        let version = nsObject as! String
-        return version
+        return ""
     }
     
     // ****************************************************
@@ -610,7 +720,7 @@ public class SLog {
         let dirs = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
         if dirs != [] {
             let dir = dirs[0]
-            let fileList = try! FileManager.default.contentsOfDirectory(atPath: dir + "/Logs")
+            let fileList = try! FileManager.default.contentsOfDirectory(atPath: dir + "/\(LOG_FILE_ROOT_DIR_NAME)")
             for list in fileList{
                 if list == ".DS_Store" || list == LOG_FILE_New_Folder_DIR_NAME{
                     continue
@@ -633,7 +743,7 @@ public class SLog {
         let fileManager = FileManager.default
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
-        if let pathComponent = url.appendingPathComponent("Logs" + "/" + fileName) {
+        if let pathComponent = url.appendingPathComponent("\(LOG_FILE_ROOT_DIR_NAME)" + "/" + fileName) {
             do {
                 try fileManager.removeItem(at: pathComponent)
                 print("File deleted")
@@ -650,22 +760,7 @@ public class SLog {
     
     func logException(tag: String?, text: String?, map: [String:Any], exception: NSException?)
     {
-        log(tag: tag, text: text, exception: exception)
-    }
-    
-    // ****************************************************
-    
-    // Function For Getting Current Time
-    func getCurrentTime() -> String {
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "hh:mm:ss a"
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.amSymbol = "AM"
-        formatter.pmSymbol = "PM"
-        let DateTime = formatter.string(from: date)
-        let strOfDateTime = String(DateTime)
-        return strOfDateTime
+        log(tag: tag, text: text, exception: exception, writeInFile: true)
     }
     
     // ****************************************************
@@ -713,33 +808,6 @@ public class SLog {
             return nil
         }
         return freeSize.int64Value
-    }
-    
-    // ****************************************************
-    
-    // function to get tag value
-    public func setDefaultTag (tagName: String) {
-        TAG = tagName
-    }
-    
-    // ****************************************************
-    
-    // function to get log days value
-    public func setDaysForLog (numberOfDays: Int) {
-        KEEP_OLD_LOGS_UP_TO_DAYS = numberOfDays
-    }
-    
-    // ****************************************************
-    
-    // function to get password
-    public func setpassword(password:String){
-        self.password = password
-    }
-    
-    // ****************************************************
-    
-    public func setTittle(title:String){
-        self.titleText = title
     }
 }
 

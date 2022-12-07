@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         SLog.shared.initilization()
         
         // function Textview Editing Calls
-//        SLog.shared.setpassword(password: "QWERTY")
+//        SLog.shared.setPassword(password: "QWERTY")
 
         // set tittle
         SLog.shared.setTittle(title: "Map App")
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     
     @IBAction func showlogBtn(_ sender : UIButton)
     {
-        SLog.shared.log(text: "show log btn pressed")
+        SLog.shared.summaryLog(text: "show log btn pressed")
     }
 
     //****************************************************
@@ -55,32 +55,49 @@ class ViewController: UIViewController {
     
     @IBAction func sendLogBtn(_ sender : UIButton)
     {
-        SLog.shared.log(text: "send log btn pressed")
-//        SLog.shared.
+//        SLog.shared.summaryLog(text: "send log btn pressed")
+        SLog.shared.detailLog(text: "detail log", writeIntoFile: true)
+        
+        SLog.shared.setTittle(title: "Title Here")
+        SLog.shared.setSendButtonText(text: "Send Button Text")
+        SLog.shared.setEmail(text: "hamza.mughal@whizpool.com")
+        SLog.shared.setPlaceHolder(text: "Enter Your Bug Detail")
+        SLog.shared.setLogFileName(text: "FINALLOG")
+        
+        
+        let img = #imageLiteral(resourceName: "testImg")
+//        SLog.shared.setCloseBtnImage(img: img)
+        
+        
+        
+        
+        
         
         let bundle = Bundle(for: NewController.self)
         let controllerView = NewController(nibName: "NewController", bundle: bundle)
-        controllerView.modalPresentationStyle = .fullScreen
+        controllerView.modalPresentationStyle = .overCurrentContext
         
-        let Uimage = #imageLiteral(resourceName: "testImg")
-        controllerView.setCloseBtnImage(img: Uimage)
+        
+//        controllerView.setMainBackgroundColor(backgroundColor: .white)
 
-        controllerView.setMainBackgroundColor(backgroundColor: .lightGray)
-        controllerView.setTitleColor(color: .red)
-        controllerView.setTitleFont(fontName: "kefa", fontSize: 24)
 
-        controllerView.setTextViewBackgroundColor(backgroundColor: .darkGray)
-        controllerView.setTextViewTextColor(color: .green)
-        controllerView.setTextViewBorderColor(borderColor: .red)
-        controllerView.setTextViewFont(fontName: "kefa", fontSize: 15)
-
-        controllerView.setDoneBtnViewColor(color: .green)
-        controllerView.setDoneBtnTextColor(color: .red)
-        controllerView.setDoneBtnBorderColor(color: .yellow)
+//        controllerView.setTitleColor(color: .red)
+//
+//        controllerView.setTitleFont(fontName: "kefa")
+//        controllerView.setTitleFontSize(fontSize: 16)
+//
+//        controllerView.setTextFieldBackgroundColor(backgroundColor: .darkGray)
+//        controllerView.setTextFieldTextColor(color: .green)
+//        controllerView.setTextFieldBorderColor(borderColor: .red)
+//
+//        controllerView.setTextFieldFont(fontName: "kefa")
+//        controllerView.setTextFieldFontSize(fontSize: 12)
+//
+//        controllerView.setSendBtnViewColor(color: .green)
+//        controllerView.setSendBtnTextColor(color: .red)
+//        controllerView.setSendBtnBorderColor(color: .red)
         
         self.present(controllerView, animated: true, completion: nil)
-        
-        
     }
 }
 

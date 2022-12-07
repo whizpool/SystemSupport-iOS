@@ -16,7 +16,7 @@ public class NewController: UIViewController {
     // MARK: - View controller Outlets -
     
     // Tittle Label Outlet
-    @IBOutlet weak var titile_lbl: UILabel!
+    @IBOutlet weak var titleLbl: UILabel!
     
     // Send Button outlet
     @IBOutlet weak var sendBtnLbl: UILabel!
@@ -26,19 +26,21 @@ public class NewController: UIViewController {
 //    @IBOutlet weak var skip_btn_outlet: UIButton!
     
     // main view outlet
-    @IBOutlet weak var main_dialogBox_view: UIView!
+    @IBOutlet weak var mainDialogBoxView: UIView!
     @IBOutlet weak var textFieldView: UIView!
     
     // Bugs TextView Outlet
-    @IBOutlet weak var BugsTextview: UITextView!
+    @IBOutlet weak var bugsTextview: GrowingTextView!
     
     // Close Btn outlet
-    @IBOutlet weak var close_btn_outlet: UIButton!
+    @IBOutlet weak var closeBtnOutlet: UIButton!
     
     @IBOutlet weak var closeBtnImg : UIImageView!
     
     
     var bDarkMode = false
+    var sendBtnBorderColor : UIColor? = nil
+    var textFieldBorderColor : UIColor? = nil
     
     //MARK: - // ********************* ViewDidLoad *********************// -
     
@@ -52,19 +54,18 @@ public class NewController: UIViewController {
         textviewEditing()
         
         // calling function of NewControllerInitilizer() for showing main view
-        NewControllerInitilizer()
+        newControllerInitilizer()
         
         self.bDarkMode = self.checkDarkMode()
-        
     }
     
-    // MARK: - ACTION MEHTODS -
+    // MARK: - // ********************* ACTION MEHTODS *********************// -
     
-    @IBAction func send_btn_action(_ sender: UIButton)
+    @IBAction func sendBtnAction(_ sender: UIButton)
     {
         // Send Button Action where we can check textview is empty or check text is equal to placeholder when both condition are ture we can show alert message Bug Detail is Missing if condition is false then we can proceed further
         
-        if BugsTextview.text.isEmpty || BugsTextview.text == SLog.shared.prefilledTextviewText || BugsTextview.text.count <= 10
+        if bugsTextview.text.isEmpty || bugsTextview.text == SLog.shared.prefilledTextviewText || bugsTextview.text.count <= 10
         {
             // show alert when textview is empty
             let alert = UIAlertController(title: "Alert", message: "Bug Detail is Missing", preferredStyle: UIAlertController.Style.alert)
@@ -75,16 +76,21 @@ public class NewController: UIViewController {
         {
             let recieverEmail = SLog.shared.sendToEmail
             guard MFMailComposeViewController.canSendMail()  else {
+                
+                let alert = UIAlertController(title: "Alert", message: "Email not configure", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
                 return
             }
+            
             let composer = MFMailComposeViewController()
             composer.mailComposeDelegate = self
             composer.setToRecipients([recieverEmail])
             composer.setSubject(SLog.shared.emailSubject)
-            composer.setMessageBody(BugsTextview.text, isHTML: true)
+            composer.setMessageBody(bugsTextview.text, isHTML: true)
             let filePath = SLog.shared.getRootDirPath()
             let url = URL(string: filePath)
-            let zipPath = url!.appendingPathComponent(SLog.shared.appendZipFolderPath)
+            let zipPath = url!.appendingPathComponent("/\(SLog.shared.LOG_FILE_New_Folder_DIR_NAME)")
             do {
                 self.createPasswordProtectedZipLogFile(at: zipPath.path, composer: composer)
 
@@ -97,43 +103,17 @@ public class NewController: UIViewController {
     
     //****************************************************
     
-    // Skip Button Action where we cannot check textview text is equal to textview placeholder then send messageBody empty
-    @IBAction func skip_btn_action(_ sender: UIButton) {
-        let recieverEmail = SLog.shared.sendToEmail
-        guard MFMailComposeViewController.canSendMail()  else {
-            return
-        }
-        let composer = MFMailComposeViewController()
-        composer.mailComposeDelegate = self
-        composer.setToRecipients([recieverEmail])
-        composer.setSubject(SLog.shared.emailSubject)
-        composer.setMessageBody("", isHTML: true)
-        let filePath = SLog.shared.getRootDirPath()
-        let url = URL(string: filePath)
-        let zipPath = url!.appendingPathComponent(SLog.shared.appendZipFolderPath)
-        do {
-            self.createPasswordProtectedZipLogFile(at: zipPath.path, composer: composer)
-            
-            if MFMailComposeViewController.canSendMail() {
-                self.present(composer, animated: true)
-            }
-        }
-    }
-    
-    //****************************************************
-    
     // close Button Action will close the main view
-    @IBAction func close_btn_action(_ sender: UIButton) {
+    @IBAction func closeBtnAction(_ sender: UIButton) {
         textFieldView.isHidden = true
-        view.backgroundColor = UIColor.init(named: "gray5")
         self.dismiss(animated: true, completion: nil)
     }
     
-    //****************************************************
+    // MARK: - // ********************* Methods *********************// -
     
-    func NewControllerInitilizer(){
+    func newControllerInitilizer() {
         
-        close_btn_outlet.setTitle("", for: .normal)
+        closeBtnOutlet.setTitle("", for: .normal)
         textFieldView.isHidden = false
         //view.backgroundColor = UIColor(white: 1, alpha: 0.4)
         view.backgroundColor = UIColor.init(white: 0.7, alpha: 0.7)
@@ -148,14 +128,14 @@ public class NewController: UIViewController {
         // calling combine all files into one file
         SLog.shared.combineLogFiles { filePath in
             //
-            SLog.shared.self.makeJsonFile { jsonfilePath in
+            SLog.shared.makeJsonFile { jsonfilePath in
                 //
                 let contentsPath = logfilePath
                 
                 // create a json file and call a function of makeJsonFile
                 if FileManager.default.fileExists(atPath: contentsPath)
                 {
-                    let createZipPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(SLog.shared.temp_zipFileName).path
+                    let createZipPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(SLog.shared.finalLogFileName_After_Combine).zip").path
                     if SLog.shared.password.isEmpty{
                         isZipped = SSZipArchive.createZipFile(atPath: createZipPath, withContentsOfDirectory: contentsPath)
                     }
@@ -167,17 +147,43 @@ public class NewController: UIViewController {
                         var data = NSData(contentsOfFile: createZipPath) as Data?
                         if let data = data
                         {
-                            viewController.addAttachmentData(data, mimeType: "application/zip", fileName: SLog.shared.zipFileName)
+                            viewController.addAttachmentData(data, mimeType: "application/zip", fileName: ("\(SLog.shared.finalLogFileName_After_Combine).zip"))
                         }
                         data = nil
                     }
                 }
             }
         }
+    }
+    
+    //****************************************************
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         
+        self.bDarkMode = self.checkDarkMode()
+        self.textFieldView.layer.borderColor = SLog.shared.borderColor
+        if self.textFieldBorderColor != nil
+        {
+            self.textFieldView.layer.borderColor = self.textFieldBorderColor?.cgColor
+        }
+        else if self.bDarkMode
+        {
+            self.textFieldView.layer.borderColor = SLog.shared.borderColorDark
+        }
         
+        // Send Button Border or corner radius
+        self.sendBtnView.layer.borderColor = SLog.shared.borderColor
+        if self.sendBtnBorderColor != nil
+        {
+            self.sendBtnView.layer.borderColor = self.sendBtnBorderColor?.cgColor
+        }
+        else if self.bDarkMode
+        {
+            self.sendBtnView.layer.borderColor = SLog.shared.borderColorDark
+        }
     }
 }
+
 // ********************* Extensions *********************//
 
 // Extension for mail composing delegate
@@ -207,46 +213,29 @@ extension NewController:MFMailComposeViewControllerDelegate
 
 
 // Extension for Textview Editing or Delegate
-extension NewController:UITextViewDelegate{
+extension NewController:UITextViewDelegate {
     
     // setting textview, buttons colors and set app name to tittle label
     func textviewEditing() {
         
         DispatchQueue.main.async {
-            // set textview delegate to self
-            self.BugsTextview.delegate = self
+            //
+            self.bugsTextview.delegate = self
+            self.bugsTextview.layer.cornerRadius = 12.0
+            self.bugsTextview.maxHeight = 270
+            self.bugsTextview.minHeight = 100
+            self.bugsTextview.trimWhiteSpaceWhenEndEditing = true
+            self.bugsTextview.placeholder = SLog.shared.prefilledTextviewText
+            self.bugsTextview.placeholderColor = UIColor(white: 0.8, alpha: 1.0)
+    //        self.BugsTextview.font = UIFont.systemFont(ofSize: 15)
+            self.bugsTextview.translatesAutoresizingMaskIntoConstraints = false
             
-            // set predefine or placeholder text to textview
-            self.BugsTextview.text = SLog.shared.prefilledTextviewText
-            
-            // setting textview cornerRadius and give background color
-            self.BugsTextview.layer.cornerRadius = 12
-            self.BugsTextview.layer.masksToBounds = true
-//            self.BugsTextview.backgroundColor = SLog.shared.backgroundColor
-            
-            // setting Email Button background color and tint color
-//            self.BugsTextview.textColor = SLog.shared.textColor
-            
-            // Textview Border or corner radius
-//            self.BugsTextview.layer.borderColor = SLog.shared.borderColor
-            self.BugsTextview.layer.borderWidth = 1.0
-            self.BugsTextview.layer.cornerRadius = 12.0
             
             // Send Button Border or corner radius
             
-            self.sendBtnView.layer.borderColor = UIColor.black.cgColor
-            if self.bDarkMode
-            {
-                self.sendBtnView.layer.borderColor = UIColor.white.cgColor
-            }
-            
+//            self.sendBtnView.layer.borderColor = UIColor.white.cgColor
             self.sendBtnView.layer.borderWidth = 1.0
             self.sendBtnView.layer.cornerRadius = 12.0
-            
-//            Skip Button Border or corner radius
-//            skip_btn_outlet.layer.borderColor = SLog.shared.borderColor
-//            skip_btn_outlet.layer.borderWidth = 1.0
-//            skip_btn_outlet.layer.cornerRadius = 12.0
             
             // main view corner radius
             self.textFieldView.layer.borderWidth = 1.0
@@ -254,19 +243,41 @@ extension NewController:UITextViewDelegate{
 //            self.textFieldView.backgroundColor = SLog.shared.backgroundColor
             
 //            main_dialogBox_view.layer.borderWidth = 1.0
-            self.main_dialogBox_view.layer.cornerRadius = 12.0
+            self.mainDialogBoxView.layer.cornerRadius = 12.0
 //            self.main_dialogBox_view.backgroundColor = SLog.shared.backgroundColor
 //            self.titile_lbl.textColor = SLog.shared.textColor
             
+            
+            
+            // set the image of the close Btn
+            if SLog.shared.closeBtnIcon != nil
+            {
+                self.closeBtnImg.image = SLog.shared.closeBtnIcon
+            }
+                
+            
+            
+            
+            
             // set appName to tittle label
-            if SLog.shared.titleText == ""
+            if SLog.shared.titleText.isEmpty
             {
                 let appName = Bundle.main.infoDictionary!["CFBundleName"] as! String
-                self.titile_lbl.text = appName
+                self.titleLbl.text = appName
             }
             else
             {
-                self.titile_lbl.text = SLog.shared.titleText
+                self.titleLbl.text = SLog.shared.titleText
+            }
+            
+            // set Send button Lable
+            if SLog.shared.sendBtnText.isEmpty
+            {
+                self.sendBtnLbl.text = "Send"
+            }
+            else
+            {
+                self.sendBtnLbl.text = SLog.shared.sendBtnText
             }
         }
     }
@@ -299,68 +310,73 @@ extension NewController:UITextViewDelegate{
         }
     }
     
+    // MARK: - // ********************* Public Methods *********************// -
+    
     // ********************* Main Alert View *********************
     
     // setting background color for alert view
-    public func setMainBackgroundColor (backgroundColor:UIColor)
+    public func setMainBackgroundColor (backgroundColor : UIColor)
     {
         DispatchQueue.main.async {
             //
-            self.main_dialogBox_view.backgroundColor = backgroundColor
+            self.mainDialogBoxView.backgroundColor = backgroundColor
         }
     }
     
-    //****************************************************
+    // ********************* Title View *********************
     
     // setting title color
-    public func setTitleColor (color:UIColor)
+    public func setTitleColor (color : UIColor)
     {
         DispatchQueue.main.async {
             //
-            self.titile_lbl.textColor = color
+            self.titleLbl.textColor = color
         }
     }
     
     //****************************************************
     
     // setting title Font
-    public func setTitleFont (fontName : String, fontSize: CGFloat)
+    public func setTitleFont (fontName : String)
     {
         DispatchQueue.main.async {
             //
-            self.titile_lbl.font = UIFont(name: fontName, size: fontSize)
+            let currentFontSize = self.titleLbl.font.pointSize
+            self.titleLbl.font = UIFont(name: fontName, size: currentFontSize)
         }
     }
     
-    // ********************* Cloase Btn Image View *********************
+    //****************************************************
     
-    // setting image for the close button
-    public func setCloseBtnImage (img : UIImage)
+    // setting title Font
+    public func setTitleFontSize (fontSize: CGFloat)
     {
         DispatchQueue.main.async {
             //
-            self.closeBtnImg.image = img
+            self.titleLbl.font = UIFont.systemFont(ofSize: fontSize)
         }
     }
     
     // ********************* Text Field View *********************
     
     // setting background color for TEXT field
-    public func setTextViewBackgroundColor (backgroundColor:UIColor)
+    public func setTextFieldBackgroundColor (backgroundColor:UIColor)
     {
         DispatchQueue.main.async {
             //
-            self.BugsTextview.backgroundColor = backgroundColor
+            self.bugsTextview.backgroundColor = backgroundColor
+            self.textFieldView.backgroundColor = backgroundColor
         }
     }
     
     //****************************************************
     
     // setting border color for TEXT field
-    public func setTextViewBorderColor (borderColor:UIColor)
+    public func setTextFieldBorderColor (borderColor:UIColor)
     {
         DispatchQueue.main.async {
             //
+            self.textFieldBorderColor = borderColor
             self.textFieldView.layer.borderColor = borderColor.cgColor
         }
     }
@@ -368,29 +384,41 @@ extension NewController:UITextViewDelegate{
     //****************************************************
     
     // setting background color for TEXT view
-    public func setTextViewTextColor (color:UIColor)
+    public func setTextFieldTextColor (color:UIColor)
     {
         DispatchQueue.main.async {
             //
-            self.BugsTextview.textColor = color
+            self.bugsTextview.textColor = color
         }
     }
     
     //****************************************************
     
     // setting text field Font
-    public func setTextViewFont (fontName : String, fontSize: CGFloat)
+    public func setTextFieldFont (fontName : String)
     {
         DispatchQueue.main.async {
             //
-            self.BugsTextview.font = UIFont(name: fontName, size: fontSize)
+            let currentFontSize = self.bugsTextview.font?.pointSize
+            self.bugsTextview.font = UIFont(name: fontName, size: currentFontSize!)
         }
     }
     
-    // ********************* Done Btn View *********************
+    //****************************************************
+    
+    // setting text field Font
+    public func setTextFieldFontSize (fontSize: CGFloat)
+    {
+        DispatchQueue.main.async {
+            //
+            self.bugsTextview.font = UIFont.systemFont(ofSize: fontSize)
+        }
+    }
+    
+    // ********************* Send Btn View *********************
     
     // setting background color for Send Btn view
-    public func setDoneBtnViewColor (color:UIColor)
+    public func setSendBtnViewColor (color:UIColor)
     {
         DispatchQueue.main.async {
             //
@@ -400,8 +428,8 @@ extension NewController:UITextViewDelegate{
     
     //****************************************************
     
-    // set Done Btn Text Color
-    public func setDoneBtnTextColor (color:UIColor)
+    // set Send Btn Text Color
+    public func setSendBtnTextColor (color:UIColor)
     {
         DispatchQueue.main.async {
             //
@@ -411,23 +439,36 @@ extension NewController:UITextViewDelegate{
     
     //****************************************************
     
-    // set Done Btn view border Color
-    public func setDoneBtnBorderColor (color:UIColor)
+    // set Send Btn view border Color
+    public func setSendBtnBorderColor (color:UIColor)
     {
         DispatchQueue.main.async {
             //
+            self.sendBtnBorderColor = color
             self.sendBtnView.layer.borderColor = color.cgColor
         }
     }
     
     //****************************************************
     
-    // setting Done btn Font
-    public func setDoneBtnFont (fontName : String, fontSize: CGFloat)
+    // setting Send btn Font
+    public func setSendBtnFont (fontName : String)
     {
         DispatchQueue.main.async {
             //
-            self.sendBtnLbl.font = UIFont(name: fontName, size: fontSize)
+            let currentFontSize = self.sendBtnLbl.font.pointSize
+            self.sendBtnLbl.font = UIFont(name: fontName, size: currentFontSize)
+        }
+    }
+    
+    //****************************************************
+    
+    // setting Send btn Font
+    public func setSendBtnFontSize (fontSize: CGFloat)
+    {
+        DispatchQueue.main.async {
+            //
+            self.sendBtnLbl.font = UIFont.systemFont(ofSize: fontSize)
         }
     }
     
@@ -436,7 +477,7 @@ extension NewController:UITextViewDelegate{
     func checkDarkMode() -> Bool
     {
         if #available(iOS 12.0, *) {
-            if( self.traitCollection.userInterfaceStyle == UIUserInterfaceStyle.dark)
+            if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyle.dark)
             {
                 return true
             }

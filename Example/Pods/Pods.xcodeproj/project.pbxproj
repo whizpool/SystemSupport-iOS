@@ -26,7 +26,9 @@
 		4DAD5FCC4B0C44492FC954089071AD2E /* SystemSupport-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB27D28C00BB91A74356DEB95ED631E /* SystemSupport-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		534EDA976CDBE519C377D315BA3FD183 /* SSZipCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = A1C41E24EBAD19D3B3B88B893E298A0F /* SSZipCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F800E52E1FE0F1A5F624C09F5BF2FD6 /* mz_zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 49CD09986F496C08770DC5BF839CE774 /* mz_zip.c */; };
-		6DB8D1E7293E1AD00011885E /* color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DB8D1E6293E1AD00011885E /* color.xcassets */; };
+		6D1063BF29409DCF006CD4E8 /* GrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1063BE29409DCF006CD4E8 /* GrowingTextView.swift */; };
+		6DE737562940A9FF00986BD9 /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DE737552940A9FF00986BD9 /* icons.xcassets */; };
+		6DE7375F2940AD2100986BD9 /* GrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1063BE29409DCF006CD4E8 /* GrowingTextView.swift */; };
 		70F48D065BDD4A367785373E5DA24C8A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 952925E838A0DE4D7BDC4EE54022633D /* Foundation.framework */; };
 		713FF3B8C2DF38C5A58023539C1C1C15 /* NewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D52429D5FE3C68710D9053E9B819B00 /* NewController.xib */; };
 		7DB2C0596405DB863CF2B2A489AE2636 /* mz_zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C97796A68E3416C1E0F893499E1417B /* mz_zip.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -119,7 +121,8 @@
 		6C5A3CE4FBB92CCA696E22CF3079EC34 /* mz.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz.h; path = SSZipArchive/minizip/mz.h; sourceTree = "<group>"; };
 		6CAB4D685F909895E7E28E1505A4AEED /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		6CAF80929B8E8764AB09B4C9CDA97C55 /* mz_strm.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm.h; path = SSZipArchive/minizip/mz_strm.h; sourceTree = "<group>"; };
-		6DB8D1E6293E1AD00011885E /* color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = color.xcassets; sourceTree = "<group>"; };
+		6D1063BE29409DCF006CD4E8 /* GrowingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextView.swift; sourceTree = "<group>"; };
+		6DE737552940A9FF00986BD9 /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
 		775AD3922FA834B7A35B825C65E9939A /* Pods-SystemSupport_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SystemSupport_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		782753E25931BDE28FFCD6FF460D9ADE /* Pods-SystemSupport_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SystemSupport_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		792A40ED2F01F677F1521D560857382B /* SystemSupport.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = SystemSupport.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -295,10 +298,11 @@
 		A768616E350B266FFDBDF0C68F3B0FB3 /* SystemSupport */ = {
 			isa = PBXGroup;
 			children = (
+				6DE737552940A9FF00986BD9 /* icons.xcassets */,
 				EE83A4094C4B95B0BB5EA157CD53DA5F /* NewController.swift */,
-				6DB8D1E6293E1AD00011885E /* color.xcassets */,
-				0D52429D5FE3C68710D9053E9B819B00 /* NewController.xib */,
 				AC3DA285A896BAEB4FA61150814E36E7 /* SLog.swift */,
+				6D1063BE29409DCF006CD4E8 /* GrowingTextView.swift */,
+				0D52429D5FE3C68710D9053E9B819B00 /* NewController.xib */,
 				C0EC945A1B674099A5C948F6D447A0E1 /* Pod */,
 				62ADDA0F4B0BB6B5156F847165476D8F /* Support Files */,
 			);
@@ -574,8 +578,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DE737562940A9FF00986BD9 /* icons.xcassets in Resources */,
 				713FF3B8C2DF38C5A58023539C1C1C15 /* NewController.xib in Resources */,
-				6DB8D1E7293E1AD00011885E /* color.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +605,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CFAA738116A9FD1DF289BCCDF1EA844 /* Pods-SystemSupport_Example-dummy.m in Sources */,
+				6DE7375F2940AD2100986BD9 /* GrowingTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -633,6 +638,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24FADCE6E736AAE12008847D1F8E92EC /* NewController.swift in Sources */,
+				6D1063BF29409DCF006CD4E8 /* GrowingTextView.swift in Sources */,
 				2E99993652A3E33E6B32C1049F09DDAE /* SLog.swift in Sources */,
 				8431010769B3AA61D78DF2666A4F2B64 /* SystemSupport-dummy.m in Sources */,
 			);

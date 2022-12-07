@@ -26,7 +26,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
         SLog.shared.log(text: "Hello World!!")
         
         // Set zip archive Password
-        SLog.shared.setpassword(password: "Password12345")
+        SLog.shared.setPassword(password: "Password12345")
         
         // set Tag for print message in console
         SLog.shared.setDefaultTag(tagName: "MyAppName") 
