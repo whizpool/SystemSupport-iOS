@@ -29,7 +29,7 @@
 		6DCC3E3F29431054008D9F87 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DCC3E4129431054008D9F87 /* Localizable.strings */; };
 		6DCC3E4629431992008D9F87 /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DCC3E4529431992008D9F87 /* icons.xcassets */; };
 		70F48D065BDD4A367785373E5DA24C8A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 952925E838A0DE4D7BDC4EE54022633D /* Foundation.framework */; };
-		713FF3B8C2DF38C5A58023539C1C1C15 /* NewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7A009951ABFB2AE7389DFC283BF868 /* NewController.xib */; };
+		713FF3B8C2DF38C5A58023539C1C1C15 /* AlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7A009951ABFB2AE7389DFC283BF868 /* AlertViewController.xib */; };
 		75E9776C7EC874388EF04AB9C7E1523C /* SystemSupport-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3151ACF18E2026A96001E7CBB09D348B /* SystemSupport-dummy.m */; };
 		76FF9E15E2C27564D6ECBB34B3495A83 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0C98EAD70E3EA316C648A9ED773793 /* AlertViewController.swift */; };
 		7DB2C0596405DB863CF2B2A489AE2636 /* mz_zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C97796A68E3416C1E0F893499E1417B /* mz_zip.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -107,7 +107,7 @@
 		3A72147992643BBE15024E5BF9E86D1F /* mz_strm_mem.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = mz_strm_mem.c; path = SSZipArchive/minizip/mz_strm_mem.c; sourceTree = "<group>"; };
 		3D3F0D6223C1DCC995A43E311F3A801C /* SSZipArchive.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = SSZipArchive/SSZipArchive.h; sourceTree = "<group>"; };
 		3E3BF4BF2521FA5808F989514C7EC9F6 /* SSZipArchive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SSZipArchive.debug.xcconfig; sourceTree = "<group>"; };
-		3E7A009951ABFB2AE7389DFC283BF868 /* NewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = NewController.xib; path = Classes/NewController.xib; sourceTree = "<group>"; };
+		3E7A009951ABFB2AE7389DFC283BF868 /* AlertViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = AlertViewController.xib; path = Classes/AlertViewController.xib; sourceTree = "<group>"; };
 		41AB5359DC818501B3AD3FDA64F2624B /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		427AA01759771C15EADA449A2961A778 /* SSZipArchive-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SSZipArchive-dummy.m"; sourceTree = "<group>"; };
 		473928B20B63CD5CABF18DB0785419CB /* mz_strm_os.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm_os.h; path = SSZipArchive/minizip/mz_strm_os.h; sourceTree = "<group>"; };
@@ -401,7 +401,7 @@
 				6DCC3E0B29430F08008D9F87 /* GrowingTextView.swift */,
 				6DCC3E0929430E64008D9F87 /* Constants.swift */,
 				6DCC3E4529431992008D9F87 /* icons.xcassets */,
-				3E7A009951ABFB2AE7389DFC283BF868 /* NewController.xib */,
+				3E7A009951ABFB2AE7389DFC283BF868 /* AlertViewController.xib */,
 				1BAEC01CFCA28CF2174BF8835F69590D /* Pod */,
 				568AD898E671CAB2ADDE9B52634CA436 /* Support Files */,
 				6DCC3E4129431054008D9F87 /* Localizable.strings */,
@@ -584,7 +584,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DCC3E4629431992008D9F87 /* icons.xcassets in Resources */,
-				713FF3B8C2DF38C5A58023539C1C1C15 /* NewController.xib in Resources */,
+				713FF3B8C2DF38C5A58023539C1C1C15 /* AlertViewController.xib in Resources */,
 				6DCC3E3F29431054008D9F87 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

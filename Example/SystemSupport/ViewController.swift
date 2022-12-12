@@ -97,7 +97,7 @@ class ViewController: UIViewController {
         
         
         let bundle = Bundle(for: AlertViewController.self)
-        let controllerView = AlertViewController(nibName: "NewController", bundle: bundle)
+        let controllerView = AlertViewController(nibName: "AlertViewController", bundle: bundle)
         controllerView.modalPresentationStyle = .overCurrentContext
         self.present(controllerView, animated: true, completion: nil)
     }

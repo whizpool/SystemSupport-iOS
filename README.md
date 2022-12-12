@@ -75,8 +75,8 @@ To run the example project, clone the repo, and run `pod install` from the Examp
         SLog.shared.setSendBtnBorderColor(color: .red)
         
         // Open Main View for Mailing Log Files on Button Action
-        let amazingBundle = Bundle(for: NewController.self)
-        let secondView = NewController(nibName: "NewController", bundle: amazingBundle)
+        let amazingBundle = Bundle(for: AlertViewController.self)
+        let secondView = AlertViewController(nibName: "AlertViewController", bundle: amazingBundle)
         secondView.modalPresentationStyle = .fullScreen
         self.present(secondView, animated: true, completion: nil)
 

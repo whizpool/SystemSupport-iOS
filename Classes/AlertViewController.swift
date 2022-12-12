@@ -1,5 +1,5 @@
 //
-//  NewController.swift
+//  AlertViewController.swift
 //  SystemSupport
 //
 //  Created by Macbook on 18/07/2022.
