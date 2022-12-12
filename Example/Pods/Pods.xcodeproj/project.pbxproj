@@ -24,10 +24,10 @@
 		4DAD5FCC4B0C44492FC954089071AD2E /* SystemSupport-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B6A7D7A6E82EC09D60DAD3BA83933FBB /* SystemSupport-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		534EDA976CDBE519C377D315BA3FD183 /* SSZipCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = A1C41E24EBAD19D3B3B88B893E298A0F /* SSZipCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F800E52E1FE0F1A5F624C09F5BF2FD6 /* mz_zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 49CD09986F496C08770DC5BF839CE774 /* mz_zip.c */; };
-		6DBAB26529474BBA0010C38C /* GrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBAB26429474BBA0010C38C /* GrowingTextView.swift */; };
-		6DCC3E0A29430E64008D9F87 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC3E0929430E64008D9F87 /* Constants.swift */; };
 		6DCC3E3F29431054008D9F87 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DCC3E4129431054008D9F87 /* Localizable.strings */; };
-		6DCC3E4629431992008D9F87 /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DCC3E4529431992008D9F87 /* icons.xcassets */; };
+		6DFA525D29474E8300F00E98 /* GrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFA525C29474E8300F00E98 /* GrowingTextView.swift */; };
+		6DFA525F29474EA000F00E98 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFA525E29474E9F00F00E98 /* Constants.swift */; };
+		6DFA526129474EBB00F00E98 /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DFA526029474EBB00F00E98 /* icons.xcassets */; };
 		70F48D065BDD4A367785373E5DA24C8A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 952925E838A0DE4D7BDC4EE54022633D /* Foundation.framework */; };
 		713FF3B8C2DF38C5A58023539C1C1C15 /* AlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7A009951ABFB2AE7389DFC283BF868 /* AlertViewController.xib */; };
 		75E9776C7EC874388EF04AB9C7E1523C /* SystemSupport-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3151ACF18E2026A96001E7CBB09D348B /* SystemSupport-dummy.m */; };
@@ -124,10 +124,10 @@
 		640494BB684109D53C602648DC944F02 /* mz_strm_split.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm_split.h; path = SSZipArchive/minizip/mz_strm_split.h; sourceTree = "<group>"; };
 		6C5A3CE4FBB92CCA696E22CF3079EC34 /* mz.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz.h; path = SSZipArchive/minizip/mz.h; sourceTree = "<group>"; };
 		6CAF80929B8E8764AB09B4C9CDA97C55 /* mz_strm.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mz_strm.h; path = SSZipArchive/minizip/mz_strm.h; sourceTree = "<group>"; };
-		6DBAB26429474BBA0010C38C /* GrowingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingTextView.swift; sourceTree = "<group>"; };
-		6DCC3E0929430E64008D9F87 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6DCC3E4029431054008D9F87 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6DCC3E4529431992008D9F87 /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
+		6DFA525C29474E8300F00E98 /* GrowingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrowingTextView.swift; path = Classes/GrowingTextView.swift; sourceTree = "<group>"; };
+		6DFA525E29474E9F00F00E98 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Constants.swift; sourceTree = "<group>"; };
+		6DFA526029474EBB00F00E98 /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = icons.xcassets; path = Classes/icons.xcassets; sourceTree = "<group>"; };
 		775AD3922FA834B7A35B825C65E9939A /* Pods-SystemSupport_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SystemSupport_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		782753E25931BDE28FFCD6FF460D9ADE /* Pods-SystemSupport_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SystemSupport_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		7AE3274AE9BC305DC84991875A728E0C /* SSZipArchive.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SSZipArchive.modulemap; sourceTree = "<group>"; };
@@ -397,10 +397,10 @@
 			isa = PBXGroup;
 			children = (
 				BD0C98EAD70E3EA316C648A9ED773793 /* AlertViewController.swift */,
-				6DBAB26429474BBA0010C38C /* GrowingTextView.swift */,
+				6DFA525E29474E9F00F00E98 /* Constants.swift */,
+				6DFA525C29474E8300F00E98 /* GrowingTextView.swift */,
 				A2AAE731F4ED55F367B776AA1A46BEB4 /* SLog.swift */,
-				6DCC3E0929430E64008D9F87 /* Constants.swift */,
-				6DCC3E4529431992008D9F87 /* icons.xcassets */,
+				6DFA526029474EBB00F00E98 /* icons.xcassets */,
 				3E7A009951ABFB2AE7389DFC283BF868 /* AlertViewController.xib */,
 				1BAEC01CFCA28CF2174BF8835F69590D /* Pod */,
 				568AD898E671CAB2ADDE9B52634CA436 /* Support Files */,
@@ -583,7 +583,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DCC3E4629431992008D9F87 /* icons.xcassets in Resources */,
+				6DFA526129474EBB00F00E98 /* icons.xcassets in Resources */,
 				713FF3B8C2DF38C5A58023539C1C1C15 /* AlertViewController.xib in Resources */,
 				6DCC3E3F29431054008D9F87 /* Localizable.strings in Resources */,
 			);
@@ -618,11 +618,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DFA525F29474EA000F00E98 /* Constants.swift in Sources */,
 				76FF9E15E2C27564D6ECBB34B3495A83 /* AlertViewController.swift in Sources */,
-				6DBAB26529474BBA0010C38C /* GrowingTextView.swift in Sources */,
+				6DFA525D29474E8300F00E98 /* GrowingTextView.swift in Sources */,
 				9F9F3F8E4762D297B406D541B34BF302 /* SLog.swift in Sources */,
 				75E9776C7EC874388EF04AB9C7E1523C /* SystemSupport-dummy.m in Sources */,
-				6DCC3E0A29430E64008D9F87 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

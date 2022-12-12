@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Constants
+public class Constants
 {
     static let defaultFontName = "kefa"
     static let defaultTitle = "Report a bug"
