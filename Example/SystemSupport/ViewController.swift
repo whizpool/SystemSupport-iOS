@@ -15,19 +15,56 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        SLog.shared.initilization()
+//        SLog.shared.initilization()
         
         // function Textview Editing Calls
 //        SLog.shared.setPassword(password: "QWERTY")
-
-        // set tittle
-        SLog.shared.setTittle(title: "Map App")
-
-        // set days
-        SLog.shared.setDaysForLog(numberOfDays: 2)
-
-        // set tag
-        SLog.shared.setDefaultTag(tagName: "Logs")
+//
+//        // set Title
+//        SLog.shared.setTitle(title: "Map App")
+//
+//        // set days
+//        SLog.shared.setDaysForLog(numberOfDays: 2)
+//
+//        // set email
+//        SLog.shared.setEmail(text: "hamza.mughal@whizpool.com")
+//
+//        // set email Subject
+//        SLog.shared.setSubjectToEmail(sub: "BUG REPORT ")
+//
+//        // set place holder for the text views
+//        SLog.shared.setPlaceHolder(text: "Enter Your Bug Detail")
+//
+//        // set final log file name which is going to be emailed
+//        SLog.shared.setLogFileName(text: "finalLog")
+ 
+        // set alert view background color
+//        SLog.shared.setMainBackgroundColor(backgroundColor: .gray)
+//
+//        // set image to the close button
+//        let img = #imageLiteral(resourceName: "testImg")
+//        SLog.shared.setCloseBtnImage(img: img)
+//
+//        // set text view text, font name, font size, border color and text color
+//        SLog.shared.setTextViewBackgroundColor(backgroundColor: .brown)
+//        SLog.shared.setTextViewBorderColor(borderColor: .green)
+//        SLog.shared.setTextViewTextColor(color: .green)
+//        SLog.shared.setTextViewFont(fontName: "Marker Felt Thin")
+//        SLog.shared.setTextViewFontSize(fontSize: 17)
+//
+//        // set title text, font name, font size and text color
+//        SLog.shared.setTitle(title: "Title Here")
+//        SLog.shared.setTitleFont(fontName: "Marker Felt Thin")
+//        SLog.shared.setTitleFontSize(fontSize: 22)
+//        SLog.shared.setTitleColor(color: .purple)
+//
+//        // set send button view text, font name, font size, border color and text color
+//        SLog.shared.setSendButtonText(text: "Send Button Text")
+//        SLog.shared.setSendBtnFont(fontName: "Marker Felt Thin")
+//        SLog.shared.setSendBtnFontSize(fontSize: 30)
+//        SLog.shared.setSendBtnTextColor(color: .green)
+//        SLog.shared.setSendButtonBackgroundColor(backgroundColor: .black)
+//        SLog.shared.setSendBtnBorderColor(color: .red)
     }
 
     // ****************************************************
@@ -48,55 +85,20 @@ class ViewController: UIViewController {
     
     @IBAction func deleteLogBtn(_ sender : UIButton)
     {
-        SLog.shared.deleteOldLogs(forcefullyDelete: true)
+//        SLog.shared.deleteOldLogs(forcefullyDelete: true)
     }
     
     //****************************************************
     
     @IBAction func sendLogBtn(_ sender : UIButton)
     {
-//        SLog.shared.summaryLog(text: "send log btn pressed")
-        SLog.shared.detailLog(text: "detail log", writeIntoFile: true)
-        
-        SLog.shared.setTittle(title: "Title Here")
-        SLog.shared.setSendButtonText(text: "Send Button Text")
-        SLog.shared.setEmail(text: "hamza.mughal@whizpool.com")
-        SLog.shared.setPlaceHolder(text: "Enter Your Bug Detail")
-        SLog.shared.setLogFileName(text: "FINALLOG")
+        SLog.shared.summaryLog(text: "summary log here")
+        SLog.shared.detailLog(text: "detail log here", writeIntoFile: false)
         
         
-        let img = #imageLiteral(resourceName: "testImg")
-//        SLog.shared.setCloseBtnImage(img: img)
-        
-        
-        
-        
-        
-        
-        let bundle = Bundle(for: NewController.self)
-        let controllerView = NewController(nibName: "NewController", bundle: bundle)
+        let bundle = Bundle(for: AlertViewController.self)
+        let controllerView = AlertViewController(nibName: "NewController", bundle: bundle)
         controllerView.modalPresentationStyle = .overCurrentContext
-        
-        
-//        controllerView.setMainBackgroundColor(backgroundColor: .white)
-
-
-//        controllerView.setTitleColor(color: .red)
-//
-//        controllerView.setTitleFont(fontName: "kefa")
-//        controllerView.setTitleFontSize(fontSize: 16)
-//
-//        controllerView.setTextFieldBackgroundColor(backgroundColor: .darkGray)
-//        controllerView.setTextFieldTextColor(color: .green)
-//        controllerView.setTextFieldBorderColor(borderColor: .red)
-//
-//        controllerView.setTextFieldFont(fontName: "kefa")
-//        controllerView.setTextFieldFontSize(fontSize: 12)
-//
-//        controllerView.setSendBtnViewColor(color: .green)
-//        controllerView.setSendBtnTextColor(color: .red)
-//        controllerView.setSendBtnBorderColor(color: .red)
-        
         self.present(controllerView, animated: true, completion: nil)
     }
 }

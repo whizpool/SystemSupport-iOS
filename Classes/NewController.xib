@@ -9,18 +9,13 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
-    </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewController" customModule="SystemSupport" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlertViewController" customModule="SystemSupport" customModuleProvider="target">
             <connections>
                 <outlet property="bugsTextview" destination="wUu-QZ-At6" id="YcX-YM-Fgh"/>
                 <outlet property="closeBtnImg" destination="oDj-yJ-eAP" id="hb3-eZ-v89"/>
                 <outlet property="closeBtnOutlet" destination="VW2-c4-1D8" id="DiH-zL-JiJ"/>
-                <outlet property="mainDialogBoxView" destination="ETg-2h-g7q" id="Jbb-R2-t5g"/>
+                <outlet property="mainAlertView" destination="ETg-2h-g7q" id="Jbb-R2-t5g"/>
                 <outlet property="sendBtnLbl" destination="TvD-Zg-v3G" id="0Uo-mt-NqF"/>
                 <outlet property="sendBtnView" destination="zmh-7k-kRH" id="NzF-vm-UrY"/>
                 <outlet property="textFieldView" destination="JsW-51-Kh9" id="g1m-aL-5F1"/>
@@ -34,14 +29,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ETg-2h-g7q" userLabel="mainView">
-                    <rect key="frame" x="30" y="336" width="354" height="226"/>
+                    <rect key="frame" x="30" y="336.5" width="354" height="225.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="System Support System Support" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="4BE-vV-mCB">
-                            <rect key="frame" x="52" y="10" width="250" height="26"/>
+                            <rect key="frame" x="52" y="10" width="250" height="25.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="250" id="LkN-d8-Dd1"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="22"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -77,11 +72,11 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JsW-51-Kh9" userLabel="text view">
-                            <rect key="frame" x="20" y="56" width="314" height="100"/>
+                            <rect key="frame" x="20" y="55.5" width="314" height="100"/>
                             <subviews>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wUu-QZ-At6" customClass="GrowingTextView" customModule="SystemSupport" customModuleProvider="target">
-                                    <rect key="frame" x="5" y="0.0" width="304" height="100"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="314" height="100"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="100" id="wFr-bA-fyb"/>
                                     </constraints>
@@ -90,19 +85,20 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Placeholder"/>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="doneAccessory" value="YES"/>
                                     </userDefinedRuntimeAttributes>
                                 </textView>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="wUu-QZ-At6" secondAttribute="trailing" constant="5" id="6G3-9W-ce5"/>
+                                <constraint firstAttribute="trailing" secondItem="wUu-QZ-At6" secondAttribute="trailing" id="6G3-9W-ce5"/>
                                 <constraint firstItem="wUu-QZ-At6" firstAttribute="top" secondItem="JsW-51-Kh9" secondAttribute="top" id="T3V-oZ-5gV"/>
                                 <constraint firstAttribute="bottom" secondItem="wUu-QZ-At6" secondAttribute="bottom" id="V2J-HI-dgL"/>
-                                <constraint firstItem="wUu-QZ-At6" firstAttribute="leading" secondItem="JsW-51-Kh9" secondAttribute="leading" constant="5" id="W78-dg-Z4K"/>
+                                <constraint firstItem="wUu-QZ-At6" firstAttribute="leading" secondItem="JsW-51-Kh9" secondAttribute="leading" id="W78-dg-Z4K"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zmh-7k-kRH" userLabel="send btn">
-                            <rect key="frame" x="20" y="166" width="314" height="40"/>
+                            <rect key="frame" x="20" y="165.5" width="314" height="40"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TvD-Zg-v3G">
                                     <rect key="frame" x="0.0" y="0.0" width="314" height="40"/>

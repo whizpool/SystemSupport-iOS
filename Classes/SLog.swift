@@ -21,36 +21,50 @@ public class SLog {
     // Zip File Password
     var password = ""
     
-    // title
-    var titleText:String = ""
-    
-    // send Button text
-    var sendBtnText:String = ""
-    
     // Background Color
-    var backgroundColor = UIColor.white
+    var alertBackgroundColor : UIColor?
     
-    // Text Color
-    var textColor = UIColor.black
+    // Title Text, color, font and font size
+    var titleText      : String = Constants.defaultTitle
+    var titleTextColor : UIColor?
+    var titleFont      = Constants.defaultFontName
+    var titleFontSize  = 22
+    
+    // send button Text, color, font and font size
+    var sendButtonBackgroundColor = UIColor(named: "color")
+    var sendBtnText      : String = Constants.defaultSendBtnText
+    var SendBtntextColor = UIColor(named: "color")
+    var sendBtnFont      = Constants.defaultFontName
+    var sendBtnFontSize  = Constants.defaultSendBtnFontSize
+    var sendBtnBorderColor : UIColor?
+    
+    var textViewBackgroundColor : UIColor?
+    var textViewBorderColor : UIColor?
+//    var textViewBorderColorDark = UIColor.black.cgColor
+    var textViewTextColor : UIColor?
+    var textViewFont      = Constants.defaultFontName
+    var textViewFontSize  = Constants.defaultTextViewFontSize
+    
     
     // border color
     var borderColor = UIColor.black.cgColor
     var borderColorDark = UIColor.white.cgColor
     
-    // Tag Variable is Project name this is displayed in console
-    var TAG:String = "LogFilePodProj"
+    // default cg color
+    var defaultColorWhite = UIColor.white
+    var defaultColorBlack = UIColor.black
 
     // Days after log files deleted
-    private var KEEP_OLD_LOGS_UP_TO_DAYS:Int = 7
+    private var filesDeletionAfterDays:Int = Constants.defaultDaysForFileDeletion
     
     // Main Directory Folder name
-    private var LOG_FILE_ROOT_DIR_NAME:String = "Logs"
+    private var logFileRootDirectoryName:String = Constants.logFileRootDirectoryName
     
     // Zip Folder name
-    var LOG_FILE_New_Folder_DIR_NAME:String = "NewZip"
+    var logFileNewFolderName:String = Constants.logFileNewFolderName
     
     // date Formate
-    private var LOG_FILE_DATE_FORMAT:String = "yyyy-MM-dd"
+    private var logFileDateFormat:String = Constants.logFileDateFormat
     
     // app version name string
     private var versionName:String = ""
@@ -60,27 +74,27 @@ public class SLog {
     
     // send by default email of developer
     var sendToEmail: String = ""
+
+    // Email Subject for mail composer
+    var emailSubject = Constants.emailSubject
     
     // after combine log file name
-    var finalLogFileName_After_Combine = "finalLog"
+    var finalLogFileNameAfterCombine = Constants.finalLogFileNameAfterCombine
     
     // zip attach file name
 //    var zipFileName = "LogFile.zip"
     
     // zip temporary save file name
-    var temp_zipFileName = "logFileData.zip"
+    var tempZipFileName = Constants.tempZipFileName
     
     // json file name
-    var jsonFileName = "myJsonFile"
-    
-    // Email Subject for mail composer
-    var emailSubject = "Email Sends To Developers"
+    var jsonFileName = Constants.jsonFileName
     
     // Textview Placeholder
-    var prefilledTextviewText = "Write here about your bug detail"
+    var textViewPlaceHolder = Constants.textViewPlaceHolder
     
     // close button icon
-    var closeBtnIcon : UIImage?
+    var closeBtnIcon = UIImage(named: "icons")
     
     
     // MARK: - ********************* initilization *********************// -
@@ -95,18 +109,18 @@ public class SLog {
         let url = NSURL(fileURLWithPath: path)
         print(path)
         
-        if let pathComponent = url.appendingPathComponent(LOG_FILE_ROOT_DIR_NAME)
+        if let pathComponent = url.appendingPathComponent(logFileRootDirectoryName)
         {
             _ = Date()
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = LOG_FILE_DATE_FORMAT
+            dateFormatter.dateFormat = logFileDateFormat
             
             let filePath = pathComponent.path
             let fileManager = FileManager.default
             if !fileManager.fileExists(atPath: filePath)
             {
                 let DocumentDirectory = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
-                let DirPath = DocumentDirectory.appendingPathComponent(LOG_FILE_ROOT_DIR_NAME)
+                let DirPath = DocumentDirectory.appendingPathComponent(logFileRootDirectoryName)
                 do
                 {
                     try FileManager.default.createDirectory(atPath: DirPath!.path, withIntermediateDirectories: true, attributes: nil)
@@ -138,7 +152,7 @@ public class SLog {
     {
         let filePath = SLog.shared.getRootDirPath()
         let url = URL(string: filePath)
-        let zipPath = url!.appendingPathComponent("/\(SLog.shared.LOG_FILE_New_Folder_DIR_NAME)")
+        let zipPath = url!.appendingPathComponent("/\(SLog.shared.logFileNewFolderName)")
         
         do {
             self.createPasswordProtectedZipLogFile(at: zipPath.path) { path in
@@ -157,7 +171,7 @@ public class SLog {
     /// this function is used for writing logs in log file and print on console
     public func summaryLog(text: String?)
     {
-        log(tag: TAG, text: text, exception: nil, writeInFile: true)
+        log(text: text, exception: nil, writeInFile: true)
     }
 
     // ****************************************************
@@ -165,7 +179,7 @@ public class SLog {
     /// this function is used to print on console and writing logs in log file ( optional )
     public func detailLog(text: String?, writeIntoFile : Bool)
     {
-        log(tag: TAG, text: text, exception: nil, writeInFile: writeIntoFile)
+        log(text: text, exception: nil, writeInFile: writeIntoFile)
     }
 
     // ****************************************************
@@ -197,7 +211,7 @@ public class SLog {
         
         // If total directories are less than 7, then don't delete any thing. But if requested to forcefully delete,
         // then skip this check and proceed forward.
-        if (totalDirectories <= KEEP_OLD_LOGS_UP_TO_DAYS && !forcefullyDelete)
+        if (totalDirectories <= filesDeletionAfterDays && !forcefullyDelete)
         {
             return false
         }
@@ -211,7 +225,7 @@ public class SLog {
             _ = deleteFile(fileName: file)
             
             // After deleting it, check how many drafts are left. If they are less than or equal to 7 then return.
-            if (totalDirectories - (index + 1) <= KEEP_OLD_LOGS_UP_TO_DAYS)
+            if (totalDirectories - (index + 1) <= filesDeletionAfterDays)
             {
                 break
             }
@@ -222,16 +236,9 @@ public class SLog {
     
     // ****************************************************
     
-    // function to get tag value
-    public func setDefaultTag (tagName: String) {
-        TAG = tagName
-    }
-    
-    // ****************************************************
-    
     // function to get log days value
     public func setDaysForLog (numberOfDays: Int) {
-        KEEP_OLD_LOGS_UP_TO_DAYS = numberOfDays
+        filesDeletionAfterDays = numberOfDays
     }
     
     // ****************************************************
@@ -244,7 +251,7 @@ public class SLog {
     // ****************************************************
     
     // function to get the alert title from developer end
-    public func setTittle(title:String) {
+    public func setTitle(title:String) {
         self.titleText = title
     }
     
@@ -264,16 +271,23 @@ public class SLog {
     
     // ****************************************************
     
+    // function to get tag value
+    public func setSubjectToEmail (sub: String) {
+        self.emailSubject = sub
+    }
+    
+    // ****************************************************
+    
     // function to set place holder for the text view
     public func setPlaceHolder (text:String) {
-        self.prefilledTextviewText = text
+        self.textViewPlaceHolder = text
     }
     
     // ****************************************************
     
     // function to set final log file name
     public func setLogFileName (text:String) {
-        self.finalLogFileName_After_Combine = text
+        self.finalLogFileNameAfterCombine = text
     }
     
     // ****************************************************
@@ -286,16 +300,159 @@ public class SLog {
     
     // ****************************************************
     
-//    // setting background color for alert view
-//    public func setMainBackgroundColor (backgroundColor : UIColor)
-//    {
-//        DispatchQueue.main.async {
-//            //
-//            self.mainDialogBoxView.backgroundColor = backgroundColor
-//        }
-//    }
+    // setting background color for alert view
+    public func setMainBackgroundColor (backgroundColor : UIColor)
+    {
+        DispatchQueue.main.async {
+            //
+            self.alertBackgroundColor = backgroundColor
+        }
+    }
     
     // ****************************************************
+    
+    // setting background color for Text View
+    public func setTextViewBackgroundColor (backgroundColor : UIColor)
+    {
+        DispatchQueue.main.async {
+            //
+            self.textViewBackgroundColor = backgroundColor
+        }
+    }
+    
+    // ****************************************************
+    
+    // setting background color for Send Button
+    public func setSendButtonBackgroundColor (backgroundColor : UIColor)
+    {
+        DispatchQueue.main.async {
+            //
+            self.sendButtonBackgroundColor = backgroundColor
+        }
+    }
+    
+    // ********************* Title View *********************
+    
+    // setting title color
+    public func setTitleColor (color : UIColor)
+    {
+        DispatchQueue.main.async {
+            //
+            self.titleTextColor = color
+        }
+    }
+    
+    //****************************************************
+    
+    // setting title Font
+    public func setTitleFont (fontName : String)
+    {
+        DispatchQueue.main.async {
+            //
+            self.titleFont = fontName
+        }
+    }
+    
+    //****************************************************
+    
+    // setting title Font Size
+    public func setTitleFontSize (fontSize: Int)
+    {
+        DispatchQueue.main.async {
+            //
+            self.titleFontSize = fontSize
+        }
+    }
+    
+    //****************************************************
+    
+    // setting Send button color
+    public func setSendBtnTextColor (color : UIColor)
+    {
+        DispatchQueue.main.async {
+            //
+            self.SendBtntextColor = color
+        }
+    }
+    
+    //****************************************************
+    
+    // setting Send button Title Font
+    public func setSendBtnFont (fontName : String)
+    {
+        DispatchQueue.main.async {
+            //
+            self.sendBtnFont = fontName
+        }
+    }
+    
+    //****************************************************
+    
+    // setting Send button Title Font Size
+    public func setSendBtnFontSize (fontSize: Int)
+    {
+        DispatchQueue.main.async {
+            //
+            self.sendBtnFontSize = fontSize
+        }
+    }
+    
+    //****************************************************
+    
+    // set Send Btn view border Color
+    public func setSendBtnBorderColor (color:UIColor)
+    {
+        DispatchQueue.main.async {
+            //
+            self.sendBtnBorderColor = color
+        }
+    }
+    
+    //****************************************************
+    
+    // setting border color for TEXT field
+    public func setTextViewBorderColor (borderColor:UIColor)
+    {
+        DispatchQueue.main.async {
+            //
+            self.textViewBorderColor = borderColor
+        }
+    }
+    
+    //****************************************************
+    
+    // setting background color for TEXT view
+    public func setTextViewTextColor (color:UIColor)
+    {
+        DispatchQueue.main.async {
+            //
+            self.textViewTextColor = color
+        }
+    }
+    
+    //****************************************************
+    
+    // setting text field Font
+    public func setTextViewFont (fontName : String)
+    {
+        DispatchQueue.main.async {
+            //
+            self.textViewFont = fontName
+        }
+    }
+
+    //****************************************************
+    
+    // setting text field Font
+    public func setTextViewFontSize (fontSize: Int)
+    {
+        DispatchQueue.main.async {
+            //
+            self.textViewFontSize = fontSize
+        }
+    }
+    
+    //****************************************************
     
     // Function For Checking App is in Debug mode or not
     public func isInDebugMode() -> Bool
@@ -319,11 +476,11 @@ public class SLog {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
         
-        if let pathComponent = url.appendingPathComponent(LOG_FILE_ROOT_DIR_NAME)
+        if let pathComponent = url.appendingPathComponent(logFileRootDirectoryName)
         {
             let date = Date()
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = LOG_FILE_DATE_FORMAT
+            dateFormatter.dateFormat = logFileDateFormat
             let currentDate = dateFormatter.string(from: date)
             
             let LongDate = getCurrentDate()
@@ -339,7 +496,8 @@ public class SLog {
                 if fileManager.fileExists(atPath: filename.path)
                 {
                     print("FILE AVAILABLE")
-                    do {
+                    do
+                    {
                         if let fileUpdater = try? FileHandle(forUpdating: filename)
                         {
                             // Function which when called will cause all updates to start from end of the file
@@ -353,10 +511,14 @@ public class SLog {
                             print(updatedMessage)
                         }
                     }
+                    catch let error as NSError
+                    {
+                        print("Unable to create directory \(error.debugDescription)")
+                    }
                 }
                 else
                 {
-                    print("FILE NOT AVAILABLE")
+                    print("FILE NOT AVAILABLE creating file")
                     /// getting detail of the device and adding into the log file
                     let appVersion = SLog.getVersionName()
                     let manufacture = SLog.getDeviceManufacture()
@@ -387,7 +549,7 @@ public class SLog {
             {
                 print("Folder NOT AVAILABLE")
                 let DocumentDirectory = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
-                let DirPath = DocumentDirectory.appendingPathComponent(LOG_FILE_ROOT_DIR_NAME)
+                let DirPath = DocumentDirectory.appendingPathComponent(logFileRootDirectoryName)
                 do
                 {
                     try FileManager.default.createDirectory(atPath: DirPath!.path, withIntermediateDirectories: true, attributes: nil)
@@ -412,7 +574,7 @@ public class SLog {
     func combineLogFiles(completion: (String) -> ())
     {
         // Delete Zip Folder
-        _ = SLog.shared.deleteFile(fileName: SLog.shared.LOG_FILE_New_Folder_DIR_NAME)
+        _ = SLog.shared.deleteFile(fileName: SLog.shared.logFileNewFolderName)
 
         let fileManager = FileManager.default
         var files = [String]()
@@ -431,8 +593,8 @@ public class SLog {
             if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
             {
                 //prepare file url
-                let fileURL = dir.appendingPathComponent("\(LOG_FILE_ROOT_DIR_NAME)/")
-                let DirPath = fileURL.appendingPathComponent(SLog.shared.LOG_FILE_New_Folder_DIR_NAME)
+                let fileURL = dir.appendingPathComponent("\(logFileRootDirectoryName)/")
+                let DirPath = fileURL.appendingPathComponent(SLog.shared.logFileNewFolderName)
 
                 do
                 {
@@ -446,15 +608,14 @@ public class SLog {
                 print("Dir Path = \(DirPath)")
 
                 let newZipDirURL = fileURL.appendingPathComponent(file)
-                fileCombine = DirPath.appendingPathComponent(SLog.shared.finalLogFileName_After_Combine)
-//                let fileCombine = DirPath.appendingPathComponent(SLog.shared.finalLogFileName_After_Combine)
+                fileCombine = DirPath.appendingPathComponent(SLog.shared.finalLogFileNameAfterCombine)
 
-                do{
+                do {
                     let data = try String(contentsOf: newZipDirURL, encoding: .utf8)
                     result = result + data
                     print(result)
                 }
-                catch{
+                catch {
                     print(error.localizedDescription)
                     completion("")
                 }
@@ -491,7 +652,7 @@ public class SLog {
 
                     completion(pathString)
                 }
-                catch{
+                catch {
                     print(error.localizedDescription)
                     completion("")
                 }
@@ -518,7 +679,7 @@ public class SLog {
                 // create a json file and call a function of makeJsonFile
                 if FileManager.default.fileExists(atPath: contentsPath)
                 {
-                    let createZipPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(SLog.shared.temp_zipFileName).path
+                    let createZipPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(SLog.shared.tempZipFileName).path
                     if SLog.shared.password.isEmpty
                     {
                         isZipped = SSZipArchive.createZipFile(atPath: createZipPath, withContentsOfDirectory: contentsPath)
@@ -528,7 +689,7 @@ public class SLog {
                         isZipped = SSZipArchive.createZipFile(atPath: createZipPath, withContentsOfDirectory: contentsPath, keepParentDirectory: true, withPassword: SLog.shared.password)
                     }
                     
-                    let zipPath = ((contentsPath as NSString).deletingLastPathComponent as NSString).appendingPathComponent(("\(SLog.shared.finalLogFileName_After_Combine).zip"))
+                    let zipPath = ((contentsPath as NSString).deletingLastPathComponent as NSString).appendingPathComponent(("\(SLog.shared.finalLogFileNameAfterCombine).zip"))
                     
                     do {
                         if isZipped
@@ -548,7 +709,7 @@ public class SLog {
                             completion("")
                         }
                     }
-                    catch{
+                    catch {
                         print(error.localizedDescription)
                         completion("")
                     }
@@ -579,22 +740,26 @@ public class SLog {
         var freeSpace:String = ""
         
         // calculate free space of device
-        if let Space = SLog.deviceRemainingFreeSpaceInBytes() {
+        if let Space = SLog.deviceRemainingFreeSpaceInBytes()
+        {
             print("free space: \(Space)")
             print(Units(bytes: Space).getReadableUnit())
             freeSpace = Units(bytes: Space).getReadableUnit()
-        } else {
+        }
+        else
+        {
             print("failed")
         }
         
         // Add Values in Dict
         myDict = ["appVersion":appVersion,"OSInstalled":OSInstalled,"deviceModel":deviceModel,"manufacture":manufacture,"freeSpace":freeSpace]
-        do{
+        do {
             //            try  saveJsonFileInDirectory(jsonObject: myDict, toFilename: SLog.shared.jsonFileName)
             try saveJsonFileInDirectory(jsonObject: myDict, toFilename: SLog.shared.jsonFileName, completion: { filePath in
                 completion(filePath)
             })
-        }catch{
+        }
+        catch {
             print(error.localizedDescription)
             completion("")
         }
@@ -608,8 +773,10 @@ public class SLog {
     {
         let fm = FileManager.default
         let urls = fm.urls(for: .documentDirectory, in: .userDomainMask)
-        if let url = urls.first {
-            var fileURL = url.appendingPathComponent("\(LOG_FILE_ROOT_DIR_NAME)/")
+        
+        if let url = urls.first
+        {
+            var fileURL = url.appendingPathComponent("\(logFileRootDirectoryName)/")
             let zipFolder = fileURL.appendingPathComponent("NewZip/")
             let zipFolderUrl = zipFolder.appendingPathComponent(filename)
             fileURL = zipFolderUrl.appendingPathExtension("json")
@@ -617,10 +784,10 @@ public class SLog {
             
             do {
                 try data.write(to: fileURL, options: [.atomicWrite])
-                
                 completion(fileURL.path)
             }
             catch {
+                print(error.localizedDescription)
                 completion("")
             }
         }
@@ -633,16 +800,16 @@ public class SLog {
     // ****************************************************
     
     // this function is call from above log function
-    func log(tag: String?, text: String?, exception: NSException?, writeInFile : Bool)
+    func log(text: String?, exception: NSException?, writeInFile : Bool)
     {
-        var tagToLog:String = ""
+//        var tagToLog:String = ""
         
-        if (tag == nil || tag!.isEmpty) {
-            tagToLog = "Null Tag"
-        }
-        else{
-            tagToLog = tag!
-        }
+//        if (tag == nil || tag!.isEmpty) {
+//            tagToLog = "Null Tag"
+//        }
+//        else{
+//            tagToLog = tag!
+//        }
         
         var textToLog:String = ""
         if (text == nil || text!.isEmpty) {
@@ -653,11 +820,11 @@ public class SLog {
         }
         
         if (exception == nil){
-            print("tag: \(tagToLog)::: \(textToLog)")
+            print("Log: \(textToLog)")
             
         }
         else{
-            print("tag: \(tagToLog)::: \(textToLog). Exception: \(String(describing: exception))")
+            print("Log:Log: \(textToLog). Exception: \(String(describing: exception))")
         }
         
         // this function is call for writing logs in log file
@@ -718,19 +885,26 @@ public class SLog {
         var fileListLogFile = [String]()
         fileListLogFile.removeAll()
         let dirs = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
-        if dirs != [] {
+        if dirs != []
+        {
             let dir = dirs[0]
-            let fileList = try! FileManager.default.contentsOfDirectory(atPath: dir + "/\(LOG_FILE_ROOT_DIR_NAME)")
-            for list in fileList{
-                if list == ".DS_Store" || list == LOG_FILE_New_Folder_DIR_NAME{
+            let fileList = try! FileManager.default.contentsOfDirectory(atPath: dir + "/\(logFileRootDirectoryName)")
+            
+            for list in fileList
+            {
+                if list == ".DS_Store" || list == logFileNewFolderName
+                {
                     continue
                 }
-                else{
+                else
+                {
                     fileListLogFile.append(list)
                 }
             }
             return fileListLogFile
-        }else{
+        }
+        else
+        {
             fileListLogFile = [""]
             return fileListLogFile
         }
@@ -743,7 +917,8 @@ public class SLog {
         let fileManager = FileManager.default
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
-        if let pathComponent = url.appendingPathComponent("\(LOG_FILE_ROOT_DIR_NAME)" + "/" + fileName) {
+        if let pathComponent = url.appendingPathComponent("\(logFileRootDirectoryName)" + "/" + fileName)
+        {
             do {
                 try fileManager.removeItem(at: pathComponent)
                 print("File deleted")
@@ -758,9 +933,9 @@ public class SLog {
     
     // ****************************************************
     
-    func logException(tag: String?, text: String?, map: [String:Any], exception: NSException?)
+    func logException(text: String?, map: [String:Any], exception: NSException?)
     {
-        log(tag: tag, text: text, exception: exception, writeInFile: true)
+        log(text: text, exception: exception, writeInFile: true)
     }
     
     // ****************************************************
@@ -783,10 +958,11 @@ public class SLog {
         var PATH = ""
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
-        if let pathComponent = url.appendingPathComponent(LOG_FILE_ROOT_DIR_NAME) {
-            
+        
+        if let pathComponent = url.appendingPathComponent(logFileRootDirectoryName)
+        {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = LOG_FILE_DATE_FORMAT
+            dateFormatter.dateFormat = logFileDateFormat
             
             let filePath = pathComponent.path
             PATH = filePath

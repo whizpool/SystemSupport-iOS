@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  Pods
+
+  Created by Himy Mughal on 09/12/2022.
+  
+*/
+
+"tileLabel"="Report a Bug";
+"sendButtonLbl"="Send";
+"textViewPlaceHolder"="Write here about your bug detail" ;
+
+//"defaultFontName" = "kefa";
+//"defaultTitle" = "Report a bug";
+//"defaultSendBtnText" = "Send";
+//"defaultSendBtnFontSize" = "20";
+//"defaultTextViewFontSize" = "17";
+//
+//"defaultTagProjectName" = "LogFilePodProj";
+//"defaultDaysForFileDeletion" = "7";
+//"logFileRootDirectoryName" = "Logs";
+//"logFileNewFolderName" = "NewZip";
+//"logFileDateFormat" = "yyyy-MM-dd";
+//"finalLogFileNameAfterCombine" = "finalLog";
+//"tempZipFileName" = "logFileData.zip";
+//"jsonFileName" = "myJsonFile";
+//"emailSubject" = "Bug Report Sends To Developers";
+//"textViewPlaceHolder" = "Write here about your bug detail";
+
+
