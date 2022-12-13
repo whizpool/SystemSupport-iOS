@@ -154,16 +154,18 @@ public class SLog {
         let url = URL(string: filePath)
         let zipPath = url!.appendingPathComponent("/\(SLog.shared.logFileNewFolderName)")
         
-        do {
-            self.createPasswordProtectedZipLogFile(at: zipPath.path) { path in
-                completion(path)
-            }
+        self.createPasswordProtectedZipLogFile(at: zipPath.path) { path in
+            completion(path)
         }
-        catch let error as NSError
-        {
-            print("Unable to create directory \(error.debugDescription)")
-            completion("")
-        }
+        
+//        do {
+//
+//        }
+//        catch let error as NSError
+//        {
+//            print("Unable to create directory \(error.debugDescription)")
+//            completion("")
+//        }
     }
     
     // ****************************************************
@@ -498,18 +500,17 @@ public class SLog {
                     print("FILE AVAILABLE")
                     do
                     {
-                        if let fileUpdater = try? FileHandle(forUpdating: filename)
-                        {
-                            // Function which when called will cause all updates to start from end of the file
-                            fileUpdater.seekToEndOfFile()
-                            
-                            // Which lets the caller move editing to any position within the file by supplying an offset
-                            fileUpdater.write(updatedMessage.data(using: .utf8)!)
-                            
-                            // Once we convert our new content to data and write it, we close the file and that’s it!
-                            fileUpdater.closeFile()
-                            print(updatedMessage)
-                        }
+                        let fileUpdater = try FileHandle(forUpdating: filename)
+                        // Function which when called will cause all updates to start from end of the file
+                        fileUpdater.seekToEndOfFile()
+                        
+                        // Which lets the caller move editing to any position within the file by supplying an offset
+                        fileUpdater.write(updatedMessage.data(using: .utf8)!)
+                        
+                        // Once we convert our new content to data and write it, we close the file and that’s it!
+                        fileUpdater.closeFile()
+                        print(updatedMessage)
+
                     }
                     catch let error as NSError
                     {
@@ -840,9 +841,9 @@ public class SLog {
     // function for getting App Version Number
     class func getVersionName() -> String {
         //First get the nsObject by defining as an optional anyObject
-        if let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject
+        if let nsObject = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
         {
-            let version = nsObject as? String ?? ""
+            let version = nsObject
             return version
         }
         
